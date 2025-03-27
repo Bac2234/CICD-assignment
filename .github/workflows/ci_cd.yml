@@ -30,8 +30,7 @@ jobs:
       # Step 3: Lint Python code
       - name: Lint with flake8
         run: |
-          pip install flake8
-          flake8 . --show-source --statistics
+          flake8 . 
       
       # Step 4: Run Python tests
       - name: Run tests
