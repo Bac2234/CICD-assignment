@@ -27,16 +27,17 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      # Step 3: Lint Python code
+      # Lint Python code
       - name: Lint with flake8
         run: |
-        if[ -f. flake8 ] || [ -f setup.cfg ] || [ -f tox.ini ] || [ -f .pep8]; then
-          flake8 . 
-          else echo "No lint configuration found, skipping linting."
+          if [ -f .flake8 ] || [ -f setup.cfg ] || [ -f tox.ini ] || [ -f .pep8 ]; then
+            flake8 .
+          else
+            echo "No lint configuration found, skipping linting."
           fi
 
-      # Step 4: Run Python tests
-        - name: Run Python tests
+      # Run Python tests
+      - name: Run Python tests
         run: |
           if [ -f pytest.ini ] || ls tests; then
             pytest
@@ -58,10 +59,10 @@ jobs:
       - name: List repository files
         run: ls -al
 
-      # Step 7: Build Docker image
+      # Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t backend_flask .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend_flask:latest .
 
       # Log into Docker Hub
       - name: Log in to Docker Hub
@@ -73,4 +74,4 @@ jobs:
       # Push Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_flask:latest 
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_flask:latest
