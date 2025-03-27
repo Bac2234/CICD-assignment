@@ -32,13 +32,13 @@ jobs:
       - name: Lint with flake8
         run: |
           pip install flake8
-          flake8 . --count
+           flake8 . --show-source --statistics
       # Step 4: Run Python tests
       ####
        - name: Run tests
         run: |
           pip install pytest
-          pytest tests/
+          pytest tests/ --disable-warnings
 
   deploy:
     name: Deploy & Push to Docker Hub
